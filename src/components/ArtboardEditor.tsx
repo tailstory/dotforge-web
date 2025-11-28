@@ -1,0 +1,42 @@
+import type { ArtboardDocument, TextElement } from "@dotforge/core";
+import { useState } from "preact/hooks";
+import ArtboardRenderer from "./ArtboardRenderer";
+import InspectorBubble from "../components/layout/InspectorBubble";
+
+export default function ArtboardEditor({ artboard }: { artboard: ArtboardDocument }) {
+  const [selected, setSelected] = useState<TextElement | null>(null);
+  const [selectedNode, setSelectedNode] = useState<HTMLElement | null>(null);
+  const [revision, setRevision] = useState(0);
+
+  function handleSelect(el: TextElement | null, node?: HTMLElement | null) {
+    setSelected(el);
+    setSelectedNode(node ?? null);
+  }
+
+  function forceUpdate() {
+    setRevision((r) => r + 1);
+  }
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <ArtboardRenderer
+        artboard={artboard}
+        selected={selected}
+        onSelect={handleSelect}
+        revision={revision}
+      />
+
+      <InspectorBubble
+        element={selected}
+        elementNode={selectedNode}
+        onChange={forceUpdate}
+      />
+    </div>
+  );
+}

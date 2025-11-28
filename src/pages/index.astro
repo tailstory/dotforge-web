@@ -1,0 +1,15 @@
+---
+import "../styles/global.css";
+import "../styles/themes.css";
+import Layout from "../components/layout/Layout";
+import ArtboardEditor from "../components/ArtboardEditor";
+import sample from "../sample-artboard.json";
+---
+
+<html>
+  <body style="margin: 0; background: var(--bg);">
+    <Layout client:load>
+      <ArtboardEditor artboard={sample} />
+    </Layout>
+  </body>
+</html>
