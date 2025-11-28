@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ArtboardDocument",
+  "type": "object",
+  "required": ["width", "height", "elements"],
+  "properties": {
+    "width": { "type": "number", "description": "mm" },
+    "height": { "type": "number", "description": "mm" },
+    "elements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TextElement" }
+    }
+  },
+  "$defs": {
+    "TextElement": {
+      "type": "object",
+      "required": ["type", "x", "y", "text", "fontSize"],
+      "properties": {
+        "type": { "const": "text" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "text": { "type": "string" },
+        "fontSize": { "type": "number" }
+      }
+    }
+  }
+}
