@@ -1,15 +1,9 @@
 ---
-import "../styles/global.css";
-import "../styles/themes.css";
-import Layout from "../components/layout/Layout";
-import ArtboardEditor from "../components/ArtboardEditor";
-import sample from "../sample-artboard.json";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArtboardEditor from "@/components/ArtboardEditor.tsx";
+import SampleArtboard from "@/SampleArtboard";
 ---
 
-<html>
-  <body style="margin: 0; background: var(--bg);">
-    <Layout client:load>
-      <ArtboardEditor artboard={sample} />
-    </Layout>
-  </body>
-</html>
+<BaseLayout pageTitle="DotForge - Editor">
+  <ArtboardEditor artboard={SampleArtboard()} client:load />
+</BaseLayout>

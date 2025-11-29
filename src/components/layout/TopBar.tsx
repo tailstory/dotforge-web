@@ -7,7 +7,7 @@ export default function TopBar() {
     <div
       style={{
         position: "absolute",
-        top: "12px",
+        top: "20px",
         left: "50%",
         transform: "translateX(-50%)",
         background: "var(--panel)",

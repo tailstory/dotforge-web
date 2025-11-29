@@ -5,7 +5,6 @@ export default function ArtboardRenderer({
   artboard,
   selected,
   onSelect,
-  revision
 }: {
   artboard: ArtboardDocument;
   selected: TextElement | null;
@@ -19,10 +18,8 @@ export default function ArtboardRenderer({
       ref={canvasRef}
       style={{
         width: "100%",
-        height: "100%",
+        height: "100vh",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         overflow: "auto",
         position: "relative",
         background: "var(--bg)",
@@ -31,10 +28,8 @@ export default function ArtboardRenderer({
     >
       <div
         style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          position: "relative",
+          margin: "auto",
           background: "white",
           border: "2px solid var(--panel-border)",
           borderRadius: "6px",
@@ -63,6 +58,7 @@ export default function ArtboardRenderer({
               left: el.x,
               top: el.y,
               padding: "1px 2px",
+              color: "black",
               background: selected === el ? "rgba(0,0,255,0.1)" : "transparent",
               border: selected === el ? "1px solid rgba(0,0,255,0.4)" : "none",
               cursor: "pointer",

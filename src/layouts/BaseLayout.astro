@@ -1,0 +1,20 @@
+---
+import "../styles/global.css";
+import "../styles/themes.css";
+import TopBar from "../components/layout/TopBar";
+import DebugBanner from "../components/debug/DebugBanner.astro";
+const { pageTitle } = Astro.props;
+---
+
+<html lang="en" class="theme-light">
+    <head>
+        <meta charset="utf-8" />
+        <title>{pageTitle || "DotForge"}</title>
+    </head>
+
+    <body>
+        <DebugBanner />
+        <TopBar client:load />
+        <slot />
+    </body>
+</html>
