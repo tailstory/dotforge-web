@@ -4,7 +4,7 @@ import { useEffect, useState } from "preact/hooks";
 export default function InspectorBubble({
   element,
   elementNode,
-  onChange
+  onChange,
 }: {
   element: TextElement | null;
   elementNode: HTMLElement | null;
@@ -18,7 +18,7 @@ export default function InspectorBubble({
     const rect = elementNode.getBoundingClientRect();
 
     setPos({
-      top: rect.bottom + 8,  // below element
+      top: rect.bottom + 8, // below element
       left: rect.right + 8, // right of element
     });
   }, [element, elementNode, element?.x, element?.y]);
@@ -47,7 +47,8 @@ export default function InspectorBubble({
       </div>
 
       <label style={{ display: "block", marginBottom: "8px" }}>
-        Text<br />
+        Text
+        <br />
         <input
           type="text"
           value={element.text}
@@ -63,7 +64,8 @@ export default function InspectorBubble({
       </label>
 
       <label style={{ display: "block", marginBottom: "8px" }}>
-        Font Size (mm)<br />
+        Font Size (mm)
+        <br />
         <input
           type="number"
           value={element.fontSize}

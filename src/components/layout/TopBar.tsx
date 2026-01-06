@@ -1,4 +1,4 @@
-import { LayoutDashboard, FileText, User } from "lucide-preact";
+import { FileText, LayoutDashboard, User } from "lucide-preact";
 import ThemeButton from "../ThemeButton";
 import ToolbarIcon from "../ToolbarIcon";
 
@@ -31,7 +31,7 @@ export default function TopBar() {
       <ToolbarIcon label="Account">
         <User size={20} strokeWidth={2} />
       </ToolbarIcon>
-      
+
       <ThemeButton />
     </div>
   );

@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "preact/hooks";
-import ToolbarIcon from "./ToolbarIcon";
 import { Palette } from "lucide-preact";
+import { useEffect, useRef, useState } from "preact/hooks";
+import ToolbarIcon from "./ToolbarIcon";
 
 export default function ThemeButton() {
   const [open, setOpen] = useState(false);
@@ -41,10 +41,7 @@ export default function ThemeButton() {
 
   return (
     <div style={{ position: "relative" }} ref={ref}>
-      <ToolbarIcon
-        label="Theme"
-        onClick={() => setOpen(!open)}
-      >
+      <ToolbarIcon label="Theme" onClick={() => setOpen(!open)}>
         <Palette />
       </ToolbarIcon>
 
@@ -71,7 +68,8 @@ export default function ThemeButton() {
                 padding: "8px 12px",
                 cursor: "pointer",
                 color: "var(--text)",
-                background: theme === t.id ? "var(--button-hover)" : "transparent",
+                background:
+                  theme === t.id ? "var(--button-hover)" : "transparent",
                 transition: "background 0.1s",
               }}
               onMouseEnter={(e) =>

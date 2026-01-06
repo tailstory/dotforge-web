@@ -36,7 +36,11 @@ export default function ToolbarIcon({
         e.currentTarget.style.background = "var(--button-bg)";
       }}
     >
-      {cloneElement(children, { size: 20, strokeWidth: 2, color: "currentColor" })}
+      {cloneElement(children, {
+        size: 20,
+        strokeWidth: 2,
+        color: "currentColor",
+      })}
     </button>
   );
 }

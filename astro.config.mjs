@@ -1,7 +1,8 @@
 // @ts-check
-import { defineConfig } from "astro/config";
-import preact from "@astrojs/preact";
+
 import cloudflare from "@astrojs/cloudflare";
+import preact from "@astrojs/preact";
+import { defineConfig } from "astro/config";
 import { execSync } from "child_process";
 
 // Get Git commit hash at build time
@@ -15,9 +16,7 @@ const getGitCommitHash = () => {
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    preact(),
-  ],
+  integrations: [preact()],
   output: "server",
   adapter: cloudflare(),
   vite: {

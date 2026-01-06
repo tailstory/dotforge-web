@@ -24,7 +24,7 @@ export default function ArtboardRenderer({
         position: "relative",
         background: "var(--bg)",
       }}
-      onClick={() => onSelect(null)}   // deselect background
+      onClick={() => onSelect(null)} // deselect background
     >
       <div
         style={{

@@ -1,9 +1,13 @@
 import type { ArtboardDocument, TextElement } from "@dotforge/core";
 import { useState } from "preact/hooks";
-import ArtboardRenderer from "./ArtboardRenderer";
 import InspectorBubble from "../components/layout/InspectorBubble";
+import ArtboardRenderer from "./ArtboardRenderer";
 
-export default function ArtboardEditor({ artboard }: { artboard: ArtboardDocument }) {
+export default function ArtboardEditor({
+  artboard,
+}: {
+  artboard: ArtboardDocument;
+}) {
   const [selected, setSelected] = useState<TextElement | null>(null);
   const [selectedNode, setSelectedNode] = useState<HTMLElement | null>(null);
   const [revision, setRevision] = useState(0);
