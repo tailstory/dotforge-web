@@ -1,73 +1,73 @@
 :root {
-  --bg: #f5f5f5;
-  --panel: #ffffff;
-  --panel-border: #d4d4d4;
-  --button-bg: #ffffff;
-  --button-border: #cccccc;
-  --button-hover: #eeeeee;
-  --icon: #333333;
-  --icon-hover: #000000;
-  --text: #111111;
+	--bg: #f5f5f5;
+	--panel: #ffffff;
+	--panel-border: #d4d4d4;
+	--button-bg: #ffffff;
+	--button-border: #cccccc;
+	--button-hover: #eeeeee;
+	--icon: #333333;
+	--icon-hover: #000000;
+	--text: #111111;
 }
 
 .theme-light {
-  --bg: #f5f6f8;
-  --panel: #ffffff;
-  --panel-border: #dcdcdc;
+	--bg: #f5f6f8;
+	--panel: #ffffff;
+	--panel-border: #dcdcdc;
 
-  --button-bg: #ffffff;
-  --button-border: #cfcfcf;
-  --button-hover: #e9e9e9;
+	--button-bg: #ffffff;
+	--button-border: #cfcfcf;
+	--button-hover: #e9e9e9;
 
-  --icon: #3a3a3a;
-  --icon-hover: #111111;
+	--icon: #3a3a3a;
+	--icon-hover: #111111;
 
-  --text: #202020;
+	--text: #202020;
 }
 
 .theme-dark {
-  --bg: #181a1b;
-  --panel: #242628;
-  --panel-border: #35383a;
+	--bg: #181a1b;
+	--panel: #242628;
+	--panel-border: #35383a;
 
-  --button-bg: #2c2f31;
-  --button-border: #404345;
-  --button-hover: #3a3d3f;
+	--button-bg: #2c2f31;
+	--button-border: #404345;
+	--button-hover: #3a3d3f;
 
-  --icon: #cdd5df;
-  /* steel blue-gray, high clarity */
-  --icon-hover: #ffffff;
-  /* crisp punch */
+	--icon: #cdd5df;
+	/* steel blue-gray, high clarity */
+	--icon-hover: #ffffff;
+	/* crisp punch */
 
-  --text: #e8e8e8;
+	--text: #e8e8e8;
 }
 
 .theme-solarized {
-  --bg: #fdf6e3;
-  --panel: #eee8d5;
-  --panel-border: #d8cfa6;
+	--bg: #fdf6e3;
+	--panel: #eee8d5;
+	--panel-border: #d8cfa6;
 
-  --button-bg: #f5efdd;
-  --button-border: #d3c59b;
-  --button-hover: #e9dfbd;
+	--button-bg: #f5efdd;
+	--button-border: #d3c59b;
+	--button-hover: #e9dfbd;
 
-  --icon: #657b83;
-  --icon-hover: #586e75;
+	--icon: #657b83;
+	--icon-hover: #586e75;
 
-  --text: #073642;
+	--text: #073642;
 }
 
 .theme-neon {
-  --bg: #0b0c0d;
-  --panel: #111214;
-  --panel-border: #292b2f;
+	--bg: #0b0c0d;
+	--panel: #111214;
+	--panel-border: #292b2f;
 
-  --button-bg: #141518;
-  --button-border: #303338;
-  --button-hover: #1e2126;
+	--button-bg: #141518;
+	--button-border: #303338;
+	--button-hover: #1e2126;
 
-  --icon: #41dff2;
-  --icon-hover: #ff00d4;
+	--icon: #41dff2;
+	--icon-hover: #ff00d4;
 
-  --text: #aaf7ff;
+	--text: #aaf7ff;
 }
