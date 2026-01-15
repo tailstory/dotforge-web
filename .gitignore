@@ -1,4 +1,6 @@
 # Generated files
 .astro/
+dist/
 
 node_modules/
+package-lock.json
