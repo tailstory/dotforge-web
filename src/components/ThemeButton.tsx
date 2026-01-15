@@ -1,18 +1,33 @@
 import { Palette } from "lucide-preact";
 import { useEffect, useRef, useState } from "preact/hooks";
+import { resolveTheme, type ThemeId, themeColors, themes } from "../lib/theme";
 import ToolbarIcon from "./ToolbarIcon";
 
 export default function ThemeButton() {
   const [open, setOpen] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(() => {
+    // Read saved preference from localStorage (not resolved theme from DOM)
+    if (typeof localStorage !== "undefined") {
+      return localStorage.getItem("dotforge-theme") || "system";
+    }
+    return "system";
+  });
   const ref = useRef<HTMLDivElement>(null);
 
+  // Listen for system preference changes when using "system" theme
   useEffect(() => {
-    const saved = localStorage.getItem("dotforge-theme");
-    if (saved) {
-      setTheme(saved);
-      document.documentElement.className = `theme-${saved}`;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    function handleChange() {
+      const saved = localStorage.getItem("dotforge-theme");
+      if (saved === "system" || !saved) {
+        const resolved: ThemeId = mediaQuery.matches ? "dark" : "light";
+        document.documentElement.className = `theme-${resolved}`;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", themeColors[resolved]);
+      }
     }
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   useEffect(() => {
@@ -27,17 +42,13 @@ export default function ThemeButton() {
 
   function applyTheme(t: string) {
     setTheme(t);
-    document.documentElement.className = `theme-${t}`;
+    const resolved = resolveTheme(t);
+    document.documentElement.className = `theme-${resolved}`;
     localStorage.setItem("dotforge-theme", t);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", themeColors[resolved]);
     setOpen(false);
   }
-
-  const themes = [
-    { id: "light", label: "Light" },
-    { id: "dark", label: "Dark" },
-    { id: "solarized", label: "Solarized" },
-    { id: "neon", label: "Neon" },
-  ];
 
   return (
     <div style={{ position: "relative" }} ref={ref}>

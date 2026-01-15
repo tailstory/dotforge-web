@@ -5,6 +5,11 @@
     border-color 0.25s ease;
 }
 
+.no-transition,
+.no-transition * {
+  transition: none !important;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;

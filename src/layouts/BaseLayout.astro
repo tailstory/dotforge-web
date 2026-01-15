@@ -3,14 +3,38 @@ import "../styles/global.css";
 import "../styles/themes.css";
 import DebugBanner from "../components/debug/DebugBanner.astro";
 import TopBar from "../components/layout/TopBar";
+import { themeColors } from "../lib/theme";
 
 const { pageTitle } = Astro.props;
+const themeColorsJson = JSON.stringify(themeColors);
 ---
 
-<html lang="en" class="theme-light">
+<html lang="en" class="no-transition">
     <head>
         <meta charset="utf-8" />
+        <meta name="theme-color" content={themeColors.light} />
         <title>{pageTitle || "DotForge"}</title>
+        <script is:inline define:vars={{ themeColorsJson }}>
+            (function() {
+                var themeColors = JSON.parse(themeColorsJson);
+                var saved = localStorage.getItem("dotforge-theme");
+                var resolved;
+                if (saved === "system" || !saved) {
+                    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                    resolved = prefersDark ? "dark" : "light";
+                } else {
+                    resolved = saved;
+                }
+                document.documentElement.className = "no-transition theme-" + resolved;
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute("content", themeColors[resolved] || themeColors.light);
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        document.documentElement.classList.remove("no-transition");
+                    });
+                });
+            })();
+        </script>
     </head>
 
     <body>
