@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v4.2.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: current
           cache: 'npm'
@@ -35,7 +35,7 @@ jobs:
         run: npm run test
 
       - name: Upload Playwright report
-        uses: actions/upload-artifact@ea0a2d401c3e7055c9b1d9e7495466b3f7b9ded2 # v4.6.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
           name: playwright-report
