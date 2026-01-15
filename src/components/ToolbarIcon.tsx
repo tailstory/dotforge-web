@@ -1,4 +1,4 @@
-import { cloneElement } from "preact";
+import { type ComponentChildren, cloneElement } from "preact";
 
 export default function ToolbarIcon({
   label,
@@ -6,11 +6,12 @@ export default function ToolbarIcon({
   onClick,
 }: {
   label: string;
-  children: any;
+  children: ComponentChildren;
   onClick?: () => void;
 }) {
   return (
     <button
+      type="button"
       title={label}
       onClick={onClick}
       style={{

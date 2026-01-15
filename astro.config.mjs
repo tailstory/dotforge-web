@@ -1,15 +1,15 @@
 // @ts-check
 
+import { execSync } from "node:child_process";
 import cloudflare from "@astrojs/cloudflare";
 import preact from "@astrojs/preact";
 import { defineConfig } from "astro/config";
-import { execSync } from "child_process";
 
 // Get Git commit hash at build time
 const getGitCommitHash = () => {
   try {
     return execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim();
-  } catch (error) {
+  } catch (_error) {
     return "unknown";
   }
 };

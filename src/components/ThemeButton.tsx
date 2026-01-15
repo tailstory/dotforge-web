@@ -72,28 +72,33 @@ export default function ThemeButton() {
           }}
         >
           {themes.map((t) => (
-            <div
+            <button
+              type="button"
               key={t.id}
               onClick={() => applyTheme(t.id)}
               style={{
+                display: "block",
+                width: "100%",
+                textAlign: "left",
+                border: "none",
                 padding: "8px 12px",
                 cursor: "pointer",
                 color: "var(--text)",
                 background:
                   theme === t.id ? "var(--button-hover)" : "transparent",
                 transition: "background 0.1s",
+                font: "inherit",
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.background =
-                  "var(--button-hover)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.background =
-                  theme === t.id ? "var(--button-hover)" : "transparent")
-              }
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--button-hover)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background =
+                  theme === t.id ? "var(--button-hover)" : "transparent";
+              }}
             >
               {t.label}
-            </div>
+            </button>
           ))}
         </div>
       )}

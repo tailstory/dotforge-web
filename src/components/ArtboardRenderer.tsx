@@ -14,6 +14,8 @@ export default function ArtboardRenderer({
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: Canvas uses pointer-based interaction; keyboard selection is not applicable for this visual editor.
+    // biome-ignore lint/a11y/noStaticElementInteractions: Canvas uses pointer-based interaction; keyboard selection is not applicable for this visual editor.
     <div
       ref={canvasRef}
       style={{
@@ -26,6 +28,8 @@ export default function ArtboardRenderer({
       }}
       onClick={() => onSelect(null)} // deselect background
     >
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: Artboard paper uses pointer-based interaction for visual editing. */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: Artboard paper uses pointer-based interaction for visual editing. */}
       <div
         style={{
           position: "relative",
@@ -33,8 +37,8 @@ export default function ArtboardRenderer({
           background: "white",
           border: "2px solid var(--panel-border)",
           borderRadius: "6px",
-          width: artboard.width + "mm",
-          height: artboard.height + "mm",
+          width: `${artboard.width}mm`,
+          height: `${artboard.height}mm`,
           overflow: "hidden",
           display: "flex",
           alignItems: "flex-start",
@@ -47,6 +51,8 @@ export default function ArtboardRenderer({
         }}
       >
         {artboard.elements.map((el) => (
+          // biome-ignore lint/a11y/useKeyWithClickEvents: Artboard elements use pointer-based drag/click interaction for visual editing.
+          // biome-ignore lint/a11y/noStaticElementInteractions: Artboard elements use pointer-based drag/click interaction for visual editing.
           <div
             key={el.id}
             onClick={(e) => {

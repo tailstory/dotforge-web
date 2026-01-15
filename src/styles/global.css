@@ -7,7 +7,7 @@
 
 .no-transition,
 .no-transition * {
-  transition: none !important;
+  transition: none;
 }
 
 body {
