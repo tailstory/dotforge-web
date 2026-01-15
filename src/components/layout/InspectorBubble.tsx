@@ -1,4 +1,5 @@
 import type { TextElement } from "@dotforge/core";
+import type { JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
 
 export default function InspectorBubble({
@@ -52,8 +53,8 @@ export default function InspectorBubble({
         <input
           type="text"
           value={element.text}
-          onInput={(e: any) => {
-            element.text = e.target.value;
+          onInput={(e: JSX.TargetedEvent<HTMLInputElement>) => {
+            element.text = e.currentTarget.value;
             onChange();
           }}
           style={{
@@ -69,8 +70,8 @@ export default function InspectorBubble({
         <input
           type="number"
           value={element.fontSize}
-          onInput={(e: any) => {
-            element.fontSize = Number(e.target.value);
+          onInput={(e: JSX.TargetedEvent<HTMLInputElement>) => {
+            element.fontSize = Number(e.currentTarget.value);
             onChange();
           }}
           style={{
