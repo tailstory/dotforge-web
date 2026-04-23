@@ -14,7 +14,7 @@
     "test:headed": "playwright test --headed"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.1.8",
+    "@astrojs/cloudflare": "^13.1.10",
     "@astrojs/preact": "^5.1.1",
     "@dotforge/core": "^0.8.0",
     "astro": "^6.1.8",
