@@ -1,5 +1,5 @@
 import type { ArtboardDocument, TextElement } from "@dotforge/core";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import PropertiesPanel from "../components/layout/PropertiesPanel";
 import ShapesToolbar, { type Tool } from "../components/layout/ShapesToolbar";
 import ArtboardRenderer from "./ArtboardRenderer";
@@ -23,6 +23,54 @@ export default function ArtboardEditor({
     setRevision((r) => r + 1);
   }
 
+  function handleMoveElement(el: TextElement, x: number, y: number) {
+    el.x = x;
+    el.y = y;
+    forceUpdate();
+  }
+
+  function handleDeleteElement(el: TextElement) {
+    const idx = artboard.elements.indexOf(el);
+    if (idx === -1) return;
+    artboard.elements.splice(idx, 1);
+    setSelected((current) => (current === el ? null : current));
+    forceUpdate();
+  }
+
+  useEffect(() => {
+    if (!selected) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Delete" && e.key !== "Backspace") return;
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      e.preventDefault();
+      if (selected) handleDeleteElement(selected);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selected]);
+
+  function handleAddTextElement(x: number, y: number) {
+    const newEl: TextElement = {
+      type: "text",
+      x,
+      y,
+      text: "Text",
+      fontSize: 3,
+    };
+    artboard.elements.push(newEl);
+    setSelected(newEl);
+    setActiveTool("select");
+    forceUpdate();
+  }
+
   const sizedArtboard = { ...artboard, width, height };
 
   return (
@@ -43,11 +91,18 @@ export default function ArtboardEditor({
           setWidth(w);
           setHeight(h);
         }}
+        onMoveElement={handleMoveElement}
+        onAddTextElement={handleAddTextElement}
+        activeTool={activeTool}
       />
 
       <ShapesToolbar activeTool={activeTool} onSelectTool={setActiveTool} />
 
-      <PropertiesPanel element={selected} onChange={forceUpdate} />
+      <PropertiesPanel
+        element={selected}
+        onChange={forceUpdate}
+        onDelete={() => selected && handleDeleteElement(selected)}
+      />
     </div>
   );
 }

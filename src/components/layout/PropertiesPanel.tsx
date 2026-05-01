@@ -4,9 +4,11 @@ import type { JSX } from "preact";
 export default function PropertiesPanel({
   element,
   onChange,
+  onDelete,
 }: {
   element: TextElement | null;
   onChange: () => void;
+  onDelete: () => void;
 }) {
   if (!element) return null;
 
@@ -55,9 +57,13 @@ export default function PropertiesPanel({
         <br />
         <input
           type="number"
+          min={0.1}
+          step={0.1}
           value={element.fontSize}
           onInput={(e: JSX.TargetedEvent<HTMLInputElement>) => {
-            element.fontSize = Number(e.currentTarget.value);
+            const next = Number(e.currentTarget.value);
+            if (!Number.isFinite(next) || next <= 0) return;
+            element.fontSize = next;
             onChange();
           }}
           style={{
@@ -66,6 +72,24 @@ export default function PropertiesPanel({
           }}
         />
       </label>
+
+      <button
+        type="button"
+        onClick={onDelete}
+        style={{
+          marginTop: "6px",
+          width: "100%",
+          padding: "6px 10px",
+          background: "var(--danger, #c0392b)",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontSize: "13px",
+        }}
+      >
+        Delete
+      </button>
     </div>
   );
 }

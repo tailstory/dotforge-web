@@ -1,19 +1,103 @@
-import type { ArtboardDocument, TextElement } from "@dotforge/core";
+import type { TextElement } from "@dotforge/core";
 import { useRef } from "preact/hooks";
+import type { Tool } from "./layout/ShapesToolbar";
+
+const DRAG_THRESHOLD_PX = 3;
 
 export default function ArtboardRenderer({
   artboard,
   selected,
   onSelect,
   onResize,
+  onMoveElement,
+  onAddTextElement,
+  activeTool,
 }: {
-  artboard: ArtboardDocument;
+  artboard: import("@dotforge/core").ArtboardDocument;
   selected: TextElement | null;
   onSelect: (el: TextElement | null) => void;
   revision: number;
   onResize?: (width: number, height: number) => void;
+  onMoveElement: (el: TextElement, x: number, y: number) => void;
+  onAddTextElement: (x: number, y: number) => void;
+  activeTool: Tool;
 }) {
   const canvasRef = useRef<HTMLDivElement | null>(null);
+  const paperRef = useRef<HTMLDivElement | null>(null);
+
+  function pxToMm(px: number) {
+    const paper = paperRef.current;
+    if (!paper) return px;
+    const rect = paper.getBoundingClientRect();
+    if (rect.width === 0) return px;
+    return (px / rect.width) * artboard.width;
+  }
+
+  function clientToMm(clientX: number, clientY: number) {
+    const paper = paperRef.current;
+    if (!paper) return { x: 0, y: 0 };
+    const rect = paper.getBoundingClientRect();
+    const scaleX = rect.width === 0 ? 1 : artboard.width / rect.width;
+    const scaleY = rect.height === 0 ? 1 : artboard.height / rect.height;
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
+    };
+  }
+
+  function handleElementPointerDown(e: PointerEvent, el: TextElement) {
+    if (activeTool !== "select") return;
+    e.stopPropagation();
+    const target = e.currentTarget as HTMLElement;
+    target.setPointerCapture(e.pointerId);
+
+    const startClientX = e.clientX;
+    const startClientY = e.clientY;
+    const startX = el.x;
+    const startY = el.y;
+    let dragging = false;
+
+    const handleMove = (ev: PointerEvent) => {
+      const dx = ev.clientX - startClientX;
+      const dy = ev.clientY - startClientY;
+      if (!dragging && Math.hypot(dx, dy) < DRAG_THRESHOLD_PX) {
+        return;
+      }
+      if (!dragging) {
+        dragging = true;
+        onSelect(el);
+      }
+      const nextX = startX + pxToMm(dx);
+      const nextY = startY + pxToMm(dy);
+      const clampedX = Math.max(0, Math.min(artboard.width, nextX));
+      const clampedY = Math.max(0, Math.min(artboard.height, nextY));
+      onMoveElement(el, clampedX, clampedY);
+    };
+
+    const handleUp = (ev: PointerEvent) => {
+      target.releasePointerCapture?.(ev.pointerId);
+      target.removeEventListener("pointermove", handleMove);
+      target.removeEventListener("pointerup", handleUp);
+      target.removeEventListener("pointercancel", handleUp);
+      if (!dragging) {
+        onSelect(el);
+      }
+    };
+
+    target.addEventListener("pointermove", handleMove);
+    target.addEventListener("pointerup", handleUp);
+    target.addEventListener("pointercancel", handleUp);
+  }
+
+  function handlePaperClick(e: MouseEvent) {
+    if (e.target !== e.currentTarget) return;
+    if (activeTool === "text") {
+      const { x, y } = clientToMm(e.clientX, e.clientY);
+      onAddTextElement(x, y);
+      return;
+    }
+    onSelect(null);
+  }
 
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: Canvas uses pointer-based interaction; keyboard selection is not applicable for this visual editor.
@@ -42,6 +126,7 @@ export default function ArtboardRenderer({
         {/* biome-ignore lint/a11y/useKeyWithClickEvents: Artboard paper uses pointer-based interaction for visual editing. */}
         {/* biome-ignore lint/a11y/noStaticElementInteractions: Artboard paper uses pointer-based interaction for visual editing. */}
         <div
+          ref={paperRef}
           style={{
             position: "relative",
             background: "white",
@@ -54,35 +139,36 @@ export default function ArtboardRenderer({
             alignItems: "flex-start",
             justifyContent: "flex-start",
             boxSizing: "border-box",
+            cursor: activeTool === "text" ? "crosshair" : "default",
           }}
-          onClick={(e) => {
-            // Clicking empty artboard area
-            if (e.target === e.currentTarget) onSelect(null);
-          }}
+          onClick={handlePaperClick}
         >
           {artboard.elements.map((el) => (
             // biome-ignore lint/a11y/useKeyWithClickEvents: Artboard elements use pointer-based drag/click interaction for visual editing.
             // biome-ignore lint/a11y/noStaticElementInteractions: Artboard elements use pointer-based drag/click interaction for visual editing.
             <div
               key={el.id}
+              onPointerDown={(e) =>
+                handleElementPointerDown(e as unknown as PointerEvent, el)
+              }
               onClick={(e) => {
                 e.stopPropagation();
-                onSelect(el);
               }}
               style={{
                 position: "absolute",
-                left: el.x,
-                top: el.y,
+                left: `${el.x}mm`,
+                top: `${el.y}mm`,
                 padding: "1px 2px",
                 color: "black",
                 background:
                   selected === el ? "rgba(0,0,255,0.1)" : "transparent",
                 border:
                   selected === el ? "1px solid rgba(0,0,255,0.4)" : "none",
-                cursor: "pointer",
+                cursor: activeTool === "select" ? "move" : "default",
                 fontSize: `${el.fontSize}mm`,
                 fontFamily: "sans-serif",
                 userSelect: "none",
+                touchAction: "none",
               }}
             >
               {el.text}
