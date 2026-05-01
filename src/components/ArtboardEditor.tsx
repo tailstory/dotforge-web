@@ -114,12 +114,23 @@ export default function ArtboardEditor({
         activeTool={activeTool}
       />
 
-      <ShapesToolbar activeTool={activeTool} onSelectTool={setActiveTool} />
-
-      <FileToolbar
-        onDownload={handleDownload}
-        onUploadFile={handleUploadFile}
-      />
+      <div
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: "12px",
+          zIndex: 1000,
+        }}
+      >
+        <ShapesToolbar activeTool={activeTool} onSelectTool={setActiveTool} />
+        <FileToolbar
+          onDownload={handleDownload}
+          onUploadFile={handleUploadFile}
+        />
+      </div>
 
       <PropertiesPanel
         element={selected}
