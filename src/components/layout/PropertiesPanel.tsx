@@ -4,9 +4,11 @@ import type { JSX } from "preact";
 export default function PropertiesPanel({
   element,
   onChange,
+  onDelete,
 }: {
   element: TextElement | null;
   onChange: () => void;
+  onDelete: () => void;
 }) {
   if (!element) return null;
 
@@ -66,6 +68,24 @@ export default function PropertiesPanel({
           }}
         />
       </label>
+
+      <button
+        type="button"
+        onClick={onDelete}
+        style={{
+          marginTop: "6px",
+          width: "100%",
+          padding: "6px 10px",
+          background: "var(--danger, #c0392b)",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontSize: "13px",
+        }}
+      >
+        Delete
+      </button>
     </div>
   );
 }
