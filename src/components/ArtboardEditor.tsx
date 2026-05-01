@@ -23,6 +23,26 @@ export default function ArtboardEditor({
     setRevision((r) => r + 1);
   }
 
+  function handleMoveElement(el: TextElement, x: number, y: number) {
+    el.x = x;
+    el.y = y;
+    forceUpdate();
+  }
+
+  function handleAddTextElement(x: number, y: number) {
+    const newEl: TextElement = {
+      type: "text",
+      x,
+      y,
+      text: "Text",
+      fontSize: 3,
+    };
+    artboard.elements.push(newEl);
+    setSelected(newEl);
+    setActiveTool("select");
+    forceUpdate();
+  }
+
   const sizedArtboard = { ...artboard, width, height };
 
   return (
@@ -43,6 +63,9 @@ export default function ArtboardEditor({
           setWidth(w);
           setHeight(h);
         }}
+        onMoveElement={handleMoveElement}
+        onAddTextElement={handleAddTextElement}
+        activeTool={activeTool}
       />
 
       <ShapesToolbar activeTool={activeTool} onSelectTool={setActiveTool} />
